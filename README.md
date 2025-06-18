@@ -1,43 +1,131 @@
-# Btrust Builders: Rust for Bitcoiners Week One Exercises
+Here's a fresh `README.md` tailored to your exercise and experience, with clear steps and credit to the **Btrust Builders** program:
 
-## Instructions
+---
 
-Welcome! This exercise is designed to help you practice key Rust programming skills specifically for Bitcoin development. 
-Your task is to complete the `todo!()` items found in the source files located in the `src/` directory.
+````markdown
+# 🦀 Rust Week 1 Exercise — Rust for Bitcoiners
 
-1. Fork this repository.
-2. Go to the `Actions` tab and enable github workflow for your repository by clicking `I understand my ...`
+This repository contains Week 1 of the **Rust for Bitcoiners Developer Pathway** by **Btrust Builders**. It provides a hands-on introduction to Rust programming with a Bitcoin context — focusing on parsing and understanding Bitcoin transactions at the bytecode level.
 
-<img src="https://github.com/btrust-builders/rust-week-1-exercises/blob/main/enable-github-actions.png" width="500" />
+---
 
-3. Clone your fork to your local computer.
-4. **Explore the Code**
-   - Open the `src/` directory and examine the Rust source files.
-   - Look for code marked with `todo!()`.
-5. **Complete the TODOs**
-   - Implement the missing logic where indicated.
-   - Ensure your code is readable, idiomatic, and compiles without warnings.
-6. **Test Your Code**
-   - Run the tests using:
-     ```bash
-     cargo test --test unit_tests
-     ```
-7. **Format and Lint (Optional but Recommended)**
-   - Format your code:
-     ```bash
-     cargo fmt
-     ```
-   - Run Clippy for linting:
-     ```bash
-     cargo clippy
-     ```
-8. Commit and push your changes to the `main` branch of your remote fork.
+## 🧑‍💻 Author
 
-9. Confirm your forked repository has a green check mark.
+**Ogbu Emmanuel Otsima**  
+Biomedical Engineer | Blockchain Developer | Rust Learner  
+GitHub: [@otsimaofficial](https://github.com/otsimaofficial)
 
-<img src="https://github.com/btrust-builders/rust-week-1-exercises/blob/main/success.png" width="1000" />
+---
 
-10. Submit your solution to this form: [Google form](https://forms.gle/a3ibaSHcqpaZWsnPA).
+## 📚 Exercise Overview
 
-PS: You can commit and push as often as you like and GitHub Actions will re-evaluate your code every time.
-You will need to look through the auto-grader logs (in the "Actions" tab) to see what exactly you got right or wrong.
+The goal of this exercise was to:
+- Clone a template project with unit tests
+- Understand and implement Rust functions step-by-step
+- Learn how to handle byte-level data (e.g., Bitcoin transaction hex)
+- Pass all test cases and push changes to a remote fork with GitHub Actions
+
+---
+
+## ✅ Completed Task: `extract_tx_version`
+
+### Function:
+```rust
+pub fn extract_tx_version(raw_tx_hex: &str) -> Result<u32, String>
+````
+
+### Objective:
+
+Extract the version number (first 4 bytes) from a raw Bitcoin transaction hex string. Handle errors like:
+
+* Hex decode failure
+* Short input strings
+
+### My Implementation:
+
+```rust
+pub fn extract_tx_version(raw_tx_hex: &str) -> Result<u32, String> {
+    if raw_tx_hex.len() < 8 {
+        return Err("Transaction data too short".to_string());
+    }
+
+    let version_hex = &raw_tx_hex[0..8];
+    let bytes = hex::decode(version_hex).map_err(|_| "Hex decode error".to_string())?;
+    let version = u32::from_le_bytes(bytes.try_into().map_err(|_| "Failed to convert to u32")?);
+    Ok(version)
+}
+```
+
+---
+
+## 🧪 Test Output
+
+```bash
+cargo test --test unit_tests
+```
+
+✅ All 4 tests passed:
+
+* test\_valid\_tx\_version
+* test\_invalid\_hex
+* test\_short\_input
+* test\_version\_2
+
+---
+
+## ⚙️ Project Setup & Process
+
+### 1. Fork the repo
+
+Forked from: [btrust-builders/rust-week-1-exercises](https://github.com/btrust-builders/rust-week-1-exercises)
+
+### 2. Clone with SSH
+
+```bash
+git clone git@github.com:otsimaofficial/rust-week-1-exercises.git
+cd rust-week-1-exercises
+```
+
+### 3. Build and test locally
+
+```bash
+cargo build
+cargo test -- --nocapture
+```
+
+### 4. Format and lint code
+
+```bash
+cargo fmt
+cargo clippy
+```
+
+### 5. Push to remote fork
+
+```bash
+git add .
+git commit -m "Implement extract_tx_version with full test coverage"
+git push origin main
+```
+
+### 6. Confirm CI Success ✅
+
+GitHub Actions runs tests automatically. A green check ✅ indicates all tests passed.
+
+---
+
+## 🚀 Next Steps
+
+Continue with Week 2 of the Rust for Bitcoiners program, solving the next function with more byte manipulation and learning advanced Rust concepts.
+
+---
+
+## 🙏 Acknowledgment
+
+This exercise is part of the **Rust for Bitcoiners Developer Pathway** by [**Btrust Builders**](https://github.com/btrust-builders), an initiative aimed at nurturing African open-source Bitcoin developers.
+
+---
+
+```
+
+---
